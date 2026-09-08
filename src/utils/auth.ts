@@ -1,6 +1,6 @@
 const AUTH_KEY = 'cgm_auth_user';
-const VALID_EMAIL = 'newindian2345@gmail.com';
-const VALID_PASSWORD = 'indian3183';
+const VALID_EMAIL = 'tapanpatel7766@gmail.com';
+const VALID_PASSWORD = 'HumTumGum';
 
 export const authService = {
   login: (email: string, pass: string): boolean => {
