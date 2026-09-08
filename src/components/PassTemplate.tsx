@@ -28,11 +28,12 @@ const getDistrict = (source?: string): string => {
 };
 
 // Helper for digital signature timestamp
-const getSignatureDate = (dateStr?: string): string => {
-  if (!dateStr) return '27/08/2026 17:48:40+0530';
+const getSignatureDate = (dateStr?: string, customSig?: string): string => {
+  if (customSig && customSig.trim()) return customSig.trim();
+  if (!dateStr) return '06/09/2026 11:40 +0530';
   const parts = dateStr.trim().split(' ');
-  const datePart = parts[0] || '27/08/2026';
-  return `${datePart} 17:48:40+0530`;
+  const datePart = parts[0] || '20/08/2026';
+  return `${datePart} 11:40 +0530`;
 };
 
 export const PassTemplate: React.FC<Props> = ({ data, viewUrl }) => {
@@ -469,7 +470,7 @@ export const PassTemplate: React.FC<Props> = ({ data, viewUrl }) => {
                   <div style={{ fontWeight: 'bold' }}>
                     District Geologist , {getDistrict(data.sourceOfPlace)}
                   </div>
-                  <div>{getSignatureDate(data.passIssuedOn)}</div>
+                  <div>{getSignatureDate(data.passIssuedOn, data.signatureDate)}</div>
                 </div>
               </div>
             </div>

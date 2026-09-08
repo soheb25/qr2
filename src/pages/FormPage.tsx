@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { PassDetails } from '../types';
 import { FileText, ChevronRight, ShieldCheck, LogOut, Lock, CheckCircle2 } from 'lucide-react';
 import { authService } from '../utils/auth';
-import { supabase, isSupabaseConfigured } from '../supabase';
+import { supabase, isSupabaseConfigured, PASSES_TABLE } from '../supabase';
 import { CGM_LOGO_BASE64 } from '../assets/cgmLogo';
 
 export const FormPage: React.FC = () => {
@@ -13,32 +13,33 @@ export const FormPage: React.FC = () => {
   const currentUser = authService.getCurrentUser() || 'newindian2345@gmail.com';
 
   const [formData, setFormData] = useState<Partial<PassDetails>>({
-    driver: 'Driver',
-    stockistCode: 'STML1401023506',
-    dcPassNo: 'STML14010235060262001604',
-    passIssuedOn: '27/08/2026 02:10 PM',
-    vehicleNo: 'GJ16AY5874',
+    driver: 'Stockist',
+    stockistCode: 'STQL1401036705',
+    dcPassNo: 'STQL14010367050001000068',
+    passIssuedOn: '20/08/2026 03:29 PM',
+    vehicleNo: 'GJ17XX5452',
     carrierType: 'Goods Carrier(HGV)',
-    mineralName: 'Quartz',
-    grade: '16-30 Mesh',
-    netWeight: '34.80 (Thirty Four point Eight Zero Zero ) MT',
-    concessionHolderName: 'New Indian Mineral_Bhamaiya',
-    sourceOfPlace: 'PANCHMAHAL/GODHRA /Bhamaiya',
-    nameOfPurchaser: 'NATIONAL MINERAL',
-    destinationAddress: '- Maharashtra/Pune/Pune City/NATIONAL MINERAL/PUNE MAHARATRSA',
-    distanceInKm: '801 KM',
-    journeyStartDate: '27/08/2026 02:08 PM',
-    journeyEndDate: '29/08/2026 02:08 PM',
+    mineralName: 'Gravel',
+    grade: '40-25 MM',
+    netWeight: '24.25 (Twenty Four point Two Five Zero ) MT',
+    concessionHolderName: 'PERFECT MINERALS',
+    sourceOfPlace: 'PANCHMAHAL/GODHRA /BHAMAIYA',
+    nameOfPurchaser: 'ATHANG WATER IND',
+    destinationAddress: '- Maharashtra/Mumbai City/Mumbai City /ATHANG WATER IND/MUMBAI',
+    distanceInKm: '601 KM',
+    journeyStartDate: '20/08/2026 03:27 PM',
+    journeyEndDate: '22/08/2026 07:27 AM',
     expectedJourneyRoute: '',
-    journeyDuration: '2 Day(s) 0 Hour(s) 0 Minute(s)',
+    journeyDuration: '1 Day(s) 16 Hour(s) 0 Minute(s)',
     nameOfCheckPost: '',
-    driverName: 'SIRAJ HURI',
-    driverLicenceNo: 'GJ1719930020564',
-    driverMobileNumber: '8799440972',
-    panNumberGstin: 'AALFN4621R / 24AALFN4621R1ZS',
-    electronicDeviceDetails: 'wastoo / MaaAAshish / Prithivi-140+ OBD Can Feature',
+    driverName: 'KHALID',
+    driverLicenceNo: 'GJ1719980047085',
+    driverMobileNumber: '8306516300',
+    panNumberGstin: 'ABDFP4433E / 24ABDFP4433E1ZL',
+    electronicDeviceDetails: 'roadpointltd / Blackbuck / GAGAN-01 NAVIC+ OBD Can Feature',
     transporterName: 'SELF',
-    buyerMobileNumber: ''
+    buyerMobileNumber: '',
+    signatureDate: '06/09/2026 11:40 +0530'
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -60,7 +61,7 @@ export const FormPage: React.FC = () => {
     // Save to Supabase if configured
     if (isSupabaseConfigured()) {
       try {
-        const { error } = await supabase.from('passes').insert([finalData]);
+        const { error } = await supabase.from(PASSES_TABLE).insert([finalData]);
         if (error) {
           console.error('Error saving to Supabase:', error.message);
         }
@@ -70,8 +71,8 @@ export const FormPage: React.FC = () => {
     }
 
     // Save to localStorage as backup
-    const existingPasses = JSON.parse(localStorage.getItem('passes') || '[]');
-    localStorage.setItem('passes', JSON.stringify([...existingPasses, finalData]));
+    const existingPasses = JSON.parse(localStorage.getItem(PASSES_TABLE) || localStorage.getItem('passes') || '[]');
+    localStorage.setItem(PASSES_TABLE, JSON.stringify([...existingPasses, finalData]));
     
     setLoading(false);
     navigate(`/view/${id}`);
@@ -173,6 +174,7 @@ export const FormPage: React.FC = () => {
               { name: 'electronicDeviceDetails', label: 'GPS Tracking Device Details', type: 'text', placeholder: 'e.g. OBD Can Feature' },
               { name: 'transporterName', label: 'Transporter Name', type: 'text', placeholder: 'e.g. SELF' },
               { name: 'buyerMobileNumber', label: 'Buyer Mobile Number', type: 'text', placeholder: 'Leave blank for -' },
+              { name: 'signatureDate', label: 'Digital Signature Date / Time', type: 'text', placeholder: 'e.g. 06/09/2026 11:40 +0530' },
             ].map((field) => (
               <div key={field.name} className="space-y-1.5">
                 <label htmlFor={field.name} className="block text-xs font-semibold uppercase tracking-wider text-indigo-200 ml-1">

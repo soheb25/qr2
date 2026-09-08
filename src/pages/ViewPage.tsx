@@ -4,7 +4,7 @@ import type { PassDetails } from '../types';
 import { PassTemplate } from '../components/PassTemplate';
 import { Download, ArrowLeft, Printer, LogOut } from 'lucide-react';
 import { authService } from '../utils/auth';
-import { supabase, isSupabaseConfigured } from '../supabase';
+import { supabase, isSupabaseConfigured, PASSES_TABLE } from '../supabase';
 
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
@@ -26,7 +26,7 @@ export const ViewPage: React.FC = () => {
       if (isSupabaseConfigured()) {
         try {
           const { data, error } = await supabase
-            .from('passes')
+            .from(PASSES_TABLE)
             .select('*')
             .eq('id', id)
             .single();
@@ -42,7 +42,7 @@ export const ViewPage: React.FC = () => {
       }
 
       // Fallback to localStorage
-      const stored = localStorage.getItem('passes');
+      const stored = localStorage.getItem(PASSES_TABLE) || localStorage.getItem('passes');
       if (stored) {
         const passes: PassDetails[] = JSON.parse(stored);
         const found = passes.find(p => p.id === id);

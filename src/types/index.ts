@@ -26,5 +26,6 @@ export interface PassDetails {
   electronicDeviceDetails: string;
   transporterName: string;
   buyerMobileNumber: string;
+  signatureDate?: string;
   logoDataUrl?: string;
 }

@@ -10,6 +10,8 @@ const supabaseAnonKey =
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+export const PASSES_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'passes2';
+
 export const isSupabaseConfigured = () => {
   return Boolean(
     supabaseUrl && 
