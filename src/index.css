@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 m-0 min-h-screen antialiased;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-sizing: border-box;
+  }
+
+  /* Reset outer wrappers so they expand full-width and allow auto-margin centering */
+  #root,
+  .min-h-screen,
+  .w-full {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  /* Force horizontal centering on all wrappers and containers in print */
+  .bg-white.shadow-2xl,
+  #printable-pdf-wrapper,
+  #pass-template-container {
+    width: 762px !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 8mm !important;
+    margin-bottom: 8mm !important;
+    padding: 0 !important;
+    display: block !important;
+    box-shadow: none !important;
+  }
+}
+
